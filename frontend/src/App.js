@@ -14,12 +14,15 @@ function App() {
                 },
                 body: JSON.stringify({ longUrl })
             });
-            
 
-            const data = await response.json();
-            setShortUrl(data.shortUrl);
+            if (response.ok) {
+                const data = await response.json();
+                setShortUrl(data.shortUrl);
+            } else {
+                console.error('Failed to shorten URL:', response.statusText);
+            }
         } catch (err) {
-            console.error(err);
+            console.error('Fetch error:', err);
         }
     };
 

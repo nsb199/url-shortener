@@ -10,11 +10,14 @@ app.use(bodyParser.json());
 app.use(cors()); // Enable CORS for all origins
 
 mongoose.connect(process.env.MONGODB_URI, {
-    
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 50000  // Increase timeout to 50 seconds
 })
 .then(() => console.log("MongoDB connected"))
-.catch(err => console.log(err));
+.catch(err => console.error("MongoDB connection error:", err));
 
+// Define schema and model
 const UrlSchema = new mongoose.Schema({
     longUrl: String,
     shortUrl: String,
@@ -24,6 +27,7 @@ const UrlSchema = new mongoose.Schema({
 
 const Url = mongoose.model('Url', UrlSchema);
 
+// Define routes
 app.post('/shorten', async (req, res) => {
     const { longUrl } = req.body;
     const urlCode = shortid.generate();
