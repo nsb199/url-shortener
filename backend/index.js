@@ -3,33 +3,26 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const shortid = require('shortid');
-require('dotenv').config(); 
+require('dotenv').config(); // Load environment variables from .env file
+
 const app = express();
-
-// Middleware
 app.use(bodyParser.json());
-app.use(cors()); 
-
+app.use(cors()); // Enable CORS for all origins
 
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    
 })
 .then(() => console.log("MongoDB connected"))
-.catch(err => {
-    console.error("MongoDB connection error:", err);
-    process.exit(1); 
-});
+.catch(err => console.log(err));
 
 const UrlSchema = new mongoose.Schema({
-    longUrl: { type: String, required: true },
-    shortUrl: { type: String, required: true },
-    urlCode: { type: String, required: true },
-    date: { type: Date, default: Date.now } 
+    longUrl: String,
+    shortUrl: String,
+    urlCode: String,
+    date: { type: String, default: Date.now }
 });
 
 const Url = mongoose.model('Url', UrlSchema);
-
 
 app.post('/shorten', async (req, res) => {
     const { longUrl } = req.body;
@@ -39,7 +32,7 @@ app.post('/shorten', async (req, res) => {
         let url = await Url.findOne({ longUrl });
 
         if (url) {
-            return res.json(url);
+            res.json(url);
         } else {
             const shortUrl = `${req.protocol}://${req.get('host')}/${urlCode}`;
             url = new Url({
@@ -48,11 +41,11 @@ app.post('/shorten', async (req, res) => {
                 urlCode
             });
             await url.save();
-            return res.json(url);
+            res.json(url);
         }
     } catch (err) {
-        console.error("Error during URL shortening:", err);
-        return res.status(500).json('Server error');
+        console.error(err);
+        res.status(500).json('Server error');
     }
 });
 
@@ -66,11 +59,10 @@ app.get('/:code', async (req, res) => {
             return res.status(404).json('No URL found');
         }
     } catch (err) {
-        console.error("Error during URL redirection:", err);
-        return res.status(500).json('Server error');
+        console.error(err);
+        res.status(500).json('Server error');
     }
 });
 
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000; // Use environment variable or default to 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
