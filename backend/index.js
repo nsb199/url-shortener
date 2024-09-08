@@ -37,7 +37,7 @@ app.post('/shorten', async (req, res) => {
             console.log('URL already exists:', url);
             res.json(url);
         } else {
-            const shortUrl = `${req.protocol}://${req.get('host')}/${urlCode}`;
+            const shortUrl = `${process.env.BASE_URL}/${urlCode}`;
             url = new Url({
                 longUrl,
                 shortUrl,
