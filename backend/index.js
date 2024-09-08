@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const shortid = require('shortid');
+require('dotenv').config(); // Load environment variables from .env file
 
 // Create express app
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://singhneeraj199199:op4LRVuxMNOZyCuu@cluster0.kxdff.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
+// Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -38,7 +39,7 @@ app.post('/shorten', async (req, res) => {
         if (url) {
             res.json(url);
         } else {
-            const shortUrl = `http://localhost:5000/${urlCode}`;
+            const shortUrl = `${req.protocol}://${req.get('host')}/${urlCode}`;
             url = new Url({
                 longUrl,
                 shortUrl,
@@ -70,5 +71,5 @@ app.get('/:code', async (req, res) => {
 });
 
 // Start server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000; // Use environment variable or default to 5000
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
