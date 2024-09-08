@@ -5,12 +5,12 @@ const cors = require('cors');
 const shortid = require('shortid');
 require('dotenv').config(); // Load environment variables from .env file
 
-// Create express app
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-// Connect to MongoDB using environment variable
+
 mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log("MongoDB connected"))
 .catch(err => console.log(err));
 
-// Create URL Schema
+
 const UrlSchema = new mongoose.Schema({
     longUrl: String,
     shortUrl: String,
@@ -28,7 +28,7 @@ const UrlSchema = new mongoose.Schema({
 
 const Url = mongoose.model('Url', UrlSchema);
 
-// POST request to shorten a URL
+
 app.post('/shorten', async (req, res) => {
     const { longUrl } = req.body;
     const urlCode = shortid.generate();
@@ -54,7 +54,7 @@ app.post('/shorten', async (req, res) => {
     }
 });
 
-// GET request to redirect using the short URL
+
 app.get('/:code', async (req, res) => {
     try {
         const url = await Url.findOne({ urlCode: req.params.code });
