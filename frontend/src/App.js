@@ -7,13 +7,14 @@ function App() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/shorten', {
+            const response = await fetch('https://url-shortener-backend-4nko.onrender.com/shorten', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ longUrl })
             });
+            
 
             const data = await response.json();
             setShortUrl(data.shortUrl);
