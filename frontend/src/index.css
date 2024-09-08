@@ -1,0 +1,112 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #e2e2e2, #f9f9f9);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+
+.App {
+  background: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
+}
+
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Label */
+label {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Input */
+input[type="text"] {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #f6e9ca;
+  box-shadow: 0 0 4px rgba(246, 233, 202, 0.5);
+  outline: none;
+}
+
+/* Button */
+button {
+  background-color: #f6e9ca;
+  color: #333;
+  border: none;
+  border-radius: 20px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+  background-color: #f1d8b3;
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(1);
+}
+
+/* Output */
+div {
+  margin-top: 20px;
+}
+
+/* Paragraph */
+p {
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Link */
+a {
+  color: #f6e9ca;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #f1d8b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
